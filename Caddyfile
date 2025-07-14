@@ -1,0 +1,3 @@
+mrk.quest, www.mrk.quest {
+  reverse_proxy ginko:3838
+}

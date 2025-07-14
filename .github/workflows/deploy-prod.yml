@@ -1,0 +1,38 @@
+name: Deploy to production
+
+on:
+  push:
+    branches: [ "main" ]
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy over SSH (git pull + compose restart)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          port: ${{ secrets.PROD_SSH_PORT || 22 }}
+          script: |
+            set -euo pipefail
+          
+            cd /opt/ginko
+          
+            echo "== Sync main =="
+            git fetch origin --prune
+            git reset --hard origin/main
+          
+            echo "== Restart production compose =="
+            docker compose -f docker-compose.prod.yml restart
+          
+            echo "== Done. Current commit =="
+            git rev-parse --short HEAD
+            docker compose -f docker-compose.prod.yml ps
+

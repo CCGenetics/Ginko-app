@@ -1,0 +1,13 @@
+# docker-compose.yml
+version: "3.9"
+
+services:
+  ginko:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "3838:3838"
+    volumes:
+      - ./app:/app
