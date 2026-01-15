@@ -1,3 +1,9 @@
+# Main domain should NOT serve the app.
 mrk.quest, www.mrk.quest {
+  respond "Not found" 404
+}
+
+# App is only available on the subdomain.
+ginko.mrk.quest {
   reverse_proxy ginko:3838
 }
