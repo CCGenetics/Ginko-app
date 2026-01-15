@@ -6,7 +6,6 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    # expose only locally; public traffic goes through Caddy
     ports:
       - "127.0.0.1:3838:3838"
     volumes:
