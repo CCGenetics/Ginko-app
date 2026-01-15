@@ -19,7 +19,7 @@ ui <- fluidPage(
     )
   ),
 
-  tags$h1("Ginko"),
+  tags$h1("Ginko!"),
 
   # ---- STEP 00 ------------------------------------------------------------
   tags$details(
