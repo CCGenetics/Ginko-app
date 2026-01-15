@@ -1,6 +1,6 @@
 -----
 
-# Step 4 — Description
+## Step 4 — Description
 
 TODO: Add step description here.
 
