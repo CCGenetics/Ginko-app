@@ -31,9 +31,9 @@ jobs:
             git reset --hard origin/main
 
             echo "== Restart production compose =="
-            docker compose -f compose.prod.yml pull || true
-            docker compose -f compose.prod.yml up -d --remove-orphans
+            docker compose -f docker-compose.prod.yml pull || true
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans
 
             echo "== Done. Current commit =="
             git rev-parse --short HEAD
-            docker compose -f compose.prod.yml ps
+            docker compose -f docker-compose.prod.yml ps
