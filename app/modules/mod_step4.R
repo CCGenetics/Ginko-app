@@ -3,6 +3,7 @@
 library(shiny)
 
 source("modules/mod_step_frame.R")
+step4_md <- file.path("content", "steps", "step4.md")
 
 mod_step4_ui <- function(id) {
   ns <- NS(id)
@@ -14,7 +15,8 @@ mod_step4_ui <- function(id) {
     description_ui = tagList(
       tags$p(
         "Generates a country-level report summarizing genetic diversity indicators."
-      )
+      ),
+      includeMarkdown(step4_md)
     ),
 
     params_ui = tagList(

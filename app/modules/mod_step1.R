@@ -3,7 +3,7 @@
 library(shiny)
 
 source("modules/mod_step_frame.R")
-
+step1_md <- file.path("content", "steps", "step1.md")
 mod_step1_ui <- function(id) {
   ns <- NS(id)
 
@@ -13,8 +13,10 @@ mod_step1_ui <- function(id) {
 
     description_ui = tagList(
       tags$p("Runs the Step 1 quality check from the Ginko-Rfun repository."),
-      tags$p("Outputs: report HTML + kobo_output_tocheck.csv + kobo_output_clean.csv.")
+      tags$p("Outputs: report HTML + kobo_output_tocheck.csv + kobo_output_clean.csv."),
+      includeMarkdown(step1_md)
     ),
+
 
     params_ui = tagList(
       checkboxInput(

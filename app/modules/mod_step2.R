@@ -3,6 +3,7 @@
 library(shiny)
 
 source("modules/mod_step_frame.R")
+step2_md <- file.path("content", "steps", "step2.md")
 
 mod_step2_ui <- function(id) {
   ns <- NS(id)
@@ -15,7 +16,8 @@ mod_step2_ui <- function(id) {
       tags$p(
         "Transforms quality-checked raw data into indicator-specific datasets ",
         "required for further analysis (Ne, PM, DNA-based)."
-      )
+      ),
+      includeMarkdown(step2_md)
     ),
 
     params_ui = tags$p("This step does not require any parameters."),

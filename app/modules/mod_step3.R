@@ -3,6 +3,7 @@
 library(shiny)
 
 source("modules/mod_step_frame.R")
+step3_md <- file.path("content", "steps", "step3.md")
 
 mod_step3_ui <- function(id) {
   ns <- NS(id)
@@ -15,7 +16,8 @@ mod_step3_ui <- function(id) {
       tags$p(
         "Calculates genetic diversity indicators required by the ",
         "Global Biodiversity Framework (Ne 500, PM, DNA-based)."
-      )
+      ),
+      includeMarkdown(step3_md)
     ),
 
     params_ui = tagList(

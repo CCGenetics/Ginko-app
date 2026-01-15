@@ -42,7 +42,7 @@ ui <- fluidPage(
     )
   ),
 
-  # ---- STEPS 01–04 (ZAWSZE WIDOCZNE) --------------------------------------
+  # ---- STEPS 01–04 --------------------------------------
   mod_step1_ui("step1"),
   mod_step2_ui("step2"),
   mod_step3_ui("step3"),
