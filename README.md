@@ -1,14 +1,3 @@
-# Ginko App — Temporary Repository
-
-⚠️ **Important notice**
-
-This repository is **temporary**.  
-Once the access issues are resolved, the project will be **moved to the official repository**:
-
-👉 https://github.com/CCGenetics/Ginko-app
-
----
-
 ## Development Workflow
 
 - Active development is done on **separate feature branches**.
