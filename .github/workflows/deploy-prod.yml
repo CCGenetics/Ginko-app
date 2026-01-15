@@ -22,18 +22,17 @@ jobs:
           port: ${{ secrets.PROD_SSH_PORT || 22 }}
           script: |
             set -euo pipefail
-
+          
             cd /opt/ginko
-
-            echo "== Pull latest main =="
-            git fetch --all --prune
-            git checkout main
+          
+            echo "== Sync main =="
+            git fetch origin --prune
             git reset --hard origin/main
-
+          
             echo "== Restart production compose =="
-            docker compose -f docker-compose.prod.yml pull || true
-            docker compose -f docker-compose.prod.yml up -d --remove-orphans
-
+            docker compose -f docker-compose.prod.yml restart
+          
             echo "== Done. Current commit =="
             git rev-parse --short HEAD
             docker compose -f docker-compose.prod.yml ps
+
