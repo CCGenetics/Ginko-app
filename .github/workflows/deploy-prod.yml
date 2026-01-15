@@ -23,7 +23,7 @@ jobs:
           script: |
             set -euo pipefail
 
-            cd /home/dzik/projects/Ginko-app
+            cd /opt/ginko
 
             echo "== Pull latest main =="
             git fetch --all --prune
