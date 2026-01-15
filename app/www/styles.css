@@ -1,0 +1,123 @@
+/*app/www/styles.css*/
+
+:root{
+    --bg-main: #f6f3ea;
+    --text-main: #1f2a24;
+    --text-muted: #4c5a52;
+
+    --green-main: #1f3d2b;
+    --green-hover: #2b5a3c;
+
+    --accent-soft: #cac58b;
+
+    --border-soft: rgba(31, 42, 36, 0.16);
+    --shadow-soft: 0 8px 28px rgba(31, 42, 36, 0.10);
+}
+
+html, body{
+    height: 100%;
+}
+
+body{
+    background: var(--bg-main);
+    color: var(--text-main);
+    font-family: "Franklin Gothic Medium","Arial Narrow",Arial,sans-serif;
+    letter-spacing: 0.2px;
+}
+
+.container-fluid{
+    max-width: 980px;
+    padding: 28px 20px 60px;
+}
+
+h1{
+    font-family: "Libre Baskerville", Baskerville, "Times New Roman", Times, serif;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    margin: 6px 0 22px;
+    color: var(--green-main);
+    font-size: 44px;
+    line-height: 1.08;
+}
+
+.btn{
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    box-shadow: none;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus{
+    outline: none !important;
+    box-shadow: 0 0 0 4px rgba(202, 197, 139, 0.45) !important;
+}
+
+.btn-default{
+    background: #ffffff;
+    color: var(--green-main);
+    border-color: var(--border-soft);
+    box-shadow: var(--shadow-soft);
+}
+
+.btn-default:hover{
+    background: #ffffff;
+    border-color: rgba(31, 61, 43, 0.35);
+    transform: translateY(-1px);
+}
+
+.btn-primary{
+    background: var(--green-main);
+    border-color: var(--green-main);
+    color: #ffffff;
+    box-shadow: var(--shadow-soft);
+}
+
+.btn-primary:hover{
+    background: var(--green-hover);
+    border-color: var(--green-hover);
+    transform: translateY(-1px);
+}
+
+.btn-primary:active,
+.btn-default:active{
+    transform: translateY(0);
+}
+
+hr{
+    border-top: 1px solid var(--border-soft);
+}
+
+a{
+    color: var(--green-main);
+    text-decoration: underline;
+    text-decoration-color: rgba(31, 61, 43, 0.35);
+    text-underline-offset: 3px;
+}
+
+a:hover{
+    color: var(--green-hover);
+    text-decoration-color: rgba(31, 61, 43, 0.65);
+}
+/* app/www/styles.css */
+
+.step-box {
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 8px;
+    background: #fafafa;
+}
+
+.step-box summary {
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+
+.step-box h4 {
+    margin-top: 12px;
+}
