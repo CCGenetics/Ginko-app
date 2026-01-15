@@ -21,7 +21,7 @@ Each step has its own Markdown file describing inputs, outputs, and expected beh
 
 The application is currently available at:
 
-👉 https://mrk.quest/
+👉 https://ginko.mrk.quest/
 
 ---
 

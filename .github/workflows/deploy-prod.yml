@@ -23,7 +23,7 @@ jobs:
           script: |
             set -euo pipefail
           
-            cd /opt/ginko
+            cd /opt/Ginko-app
           
             echo "== Sync main =="
             git fetch origin --prune
