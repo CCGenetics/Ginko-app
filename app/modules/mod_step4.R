@@ -10,7 +10,7 @@ mod_step4_ui <- function(id) {
 
   step_frame_ui(
     id = id,
-    title = "04 — Country report",
+    title = "04 - Country report",
 
     description_ui = tagList(
       tags$p(

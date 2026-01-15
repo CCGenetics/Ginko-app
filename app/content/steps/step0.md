@@ -1,3 +1,9 @@
+------
+
+# Step 1 - Description from a file
+
+TODO: Add step description here.
+
 ## Upload data!
 
 Upload the raw CSV exported from KoboToolbox.
@@ -12,3 +18,5 @@ Upload the raw CSV exported from KoboToolbox.
 ### Tips
 - Prefer UTF-8 encoded CSV.
 - Do not edit column names in the export.
+
+------

@@ -9,7 +9,7 @@ mod_step1_ui <- function(id) {
 
   step_frame_ui(
     id = id,
-    title = "01 — Raw data quality check",
+    title = "01 - Raw data quality check",
 
     description_ui = tagList(
       tags$p("Runs the Step 1 quality check from the Ginko-Rfun repository."),

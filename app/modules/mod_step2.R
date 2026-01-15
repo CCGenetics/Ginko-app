@@ -10,7 +10,7 @@ mod_step2_ui <- function(id) {
 
   step_frame_ui(
     id = id,
-    title = "02 — Clean & extract indicators data",
+    title = "02 - Clean & extract indicators data",
 
     description_ui = tagList(
       tags$p(

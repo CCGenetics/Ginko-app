@@ -10,7 +10,7 @@ mod_step3_ui <- function(id) {
 
   step_frame_ui(
     id = id,
-    title = "03 — Estimate indicators",
+    title = "03 - Estimate indicators",
 
     description_ui = tagList(
       tags$p(

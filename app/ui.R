@@ -26,7 +26,7 @@ ui <- fluidPage(
     open = TRUE,
     class = "step-box",
 
-    tags$summary("00 — Upload data"),
+    tags$summary("00 - Upload data"),
 
     tags$h4("Description"),
     if (file.exists(step0_md)) {
