@@ -47,12 +47,30 @@ server <- function(input, output, session) {
     )
   )
 
-  # ---- Steps 2–4 (placeholders; keep your current flow wiring) -----------
-  step1_done <- reactiveVal(FALSE)
-  step2_done <- reactiveVal(FALSE)
-  step3_done <- reactiveVal(FALSE)
+  # ---- Step 2 (real) -------------------------------------------------------
+  mod_step2_server(
+    id = "step2",
+    paths = list(
+      base_dir  = base_dir,
+      input_dir = input_dir
+    )
+  )
 
-  mod_step2_server("step2", state = list(done = step1_done))
-  mod_step3_server("step3", state = list(done = step2_done))
-  mod_step4_server("step4", state = list(done = step3_done))
+  # ---- Step 3 (real) -------------------------------------------------------
+  mod_step3_server(
+    id = "step3",
+    paths = list(
+      base_dir  = base_dir,
+      input_dir = input_dir
+    )
+  )
+
+  # ---- Step 4 (real) -------------------------------------------------------
+  mod_step4_server(
+    id = "step4",
+    paths = list(
+      base_dir  = base_dir,
+      input_dir = input_dir
+    )
+  )
 }
