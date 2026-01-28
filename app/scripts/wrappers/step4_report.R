@@ -1,4 +1,12 @@
 # app/scripts/wrappers/step4_report.R
+#
+# Step 4 Wrapper: Country Report
+# Generates a country-level HTML report with visualizations.
+#
+# Usage: Rscript step4_report.R <input_dir> <output_dir> <country_name>
+#
+# Outputs:
+#   - country_report.html: Summary report with charts and statistics
 
 args <- commandArgs(trailingOnly = TRUE)
 

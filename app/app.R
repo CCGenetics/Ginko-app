@@ -1,12 +1,9 @@
 # app/app.R
+#
+# Entry point for the Ginko Shiny application.
+# Web interface for the Ginko-Rfun genetic diversity indicators pipeline.
 
 source("R/00_deps.R")
-
-source("modules/mod_step_frame.R")
-source("modules/mod_step1.R")
-source("modules/mod_step2.R")
-source("modules/mod_step3.R")
-source("modules/mod_step4.R")
 
 source("ui.R")
 source("server.R")

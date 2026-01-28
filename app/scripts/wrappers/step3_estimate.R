@@ -1,4 +1,15 @@
 # app/scripts/wrappers/step3_estimate.R
+#
+# Step 3 Wrapper: Estimate Indicators
+# Calculates genetic diversity indicators (Ne 500, PM, DNA-based).
+#
+# Usage: Rscript step3_estimate.R <input_dir> <output_dir>
+#
+# Outputs:
+#   - indicators_full.csv: All indicators joined with metadata
+#   - indicatorNe.csv: Ne 500 indicator values per assessment
+#   - indicatorPM.csv: PM indicator values per taxon
+#   - indicatorDNAbased.csv: DNA-based indicator counts per country
 
 args <- commandArgs(trailingOnly = TRUE)
 

@@ -1,35 +1,33 @@
 # app/modules/mod_step2.R
+#
+# Step 2: Clean & extract indicators data
+# Transforms cleaned Kobo data into indicator-specific datasets.
 
 library(shiny)
 
+source("content/ui_strings.R")
 source("modules/mod_step_frame.R")
+
 step2_md <- file.path("content", "steps", "step2.md")
 
 mod_step2_ui <- function(id) {
-
   ns <- NS(id)
 
   step_frame_ui(
     id = id,
-    title = "02 - Clean & extract indicators data",
+    title = STEP2_TITLE,
 
     description_ui = tagList(
-      tags$p(
-        "Transforms quality-checked raw data into indicator-specific datasets ",
-        "required for further analysis (Ne, PM, DNA-based)."
-      ),
       includeMarkdown(step2_md)
     ),
 
     params_ui = tagList(
-      tags$h5("Input data source"),
+      tags$h5(LABEL_INPUT_SOURCE),
       radioButtons(
         inputId = ns("input_source"),
         label = NULL,
-        choices = c(
-          "Use output from Step 1" = "previous",
-          "Upload my own file" = "upload"
-        ),
+        choiceNames = list(STEP2_INPUT_FROM_STEP1, INPUT_SOURCE_UPLOAD),
+        choiceValues = list("previous", "upload"),
         selected = "previous"
       ),
 
@@ -37,47 +35,40 @@ mod_step2_ui <- function(id) {
         condition = sprintf("input['%s'] == 'upload'", ns("input_source")),
         fileInput(
           inputId = ns("upload_clean"),
-          label = "Upload kobo_output_clean.csv",
+          label = STEP2_UPLOAD_LABEL,
           accept = ".csv"
         ),
-        tags$small(
-          class = "text-muted",
-          "Upload a CSV file with cleaned Kobo data (output from Step 1 or equivalent)."
-        )
+        tags$small(class = "text-muted", STEP2_UPLOAD_HELP)
       ),
 
       tags$hr(),
 
       numericInput(
         inputId = ns("ratio"),
-        label = "Nc:Ne ratio (0.0-1.0)",
+        label = STEP2_PARAM_RATIO_LABEL,
         value = 0.1,
         min = 0,
         max = 1,
         step = 0.01
       ),
-      tags$small(
-        class = "text-muted",
-        "This ratio is used to transform Nc (census size) to Ne (effective population size). ",
-        "Default value of 0.1 means Ne = Nc * 0.1"
-      )
+      tags$small(class = "text-muted", STEP2_PARAM_RATIO_HELP)
     ),
 
     process_ui = actionButton(
       inputId = ns("process"),
-      label = "Process"
+      label = BTN_PROCESS
     ),
 
     result_ui = tagList(
-      tags$h5("Run status"),
+      tags$h5(LABEL_RUN_STATUS),
       verbatimTextOutput(ns("run_status")),
 
-      tags$h5("Output files"),
-      downloadButton(ns("download_indNe"), "Download indNe_data.csv"),
-      downloadButton(ns("download_indPM"), "Download indPM_data.csv"),
-      downloadButton(ns("download_indDNAbased"), "Download indDNAbased_data.csv"),
-      downloadButton(ns("download_metadata"), "Download metadata.csv"),
-      downloadButton(ns("download_log"), "Download step log")
+      tags$h5(LABEL_OUTPUT_FILES),
+      downloadButton(ns("download_indNe"), STEP2_BTN_INDNE),
+      downloadButton(ns("download_indPM"), STEP2_BTN_INDPM),
+      downloadButton(ns("download_indDNAbased"), STEP2_BTN_INDDNA),
+      downloadButton(ns("download_metadata"), STEP2_BTN_METADATA),
+      downloadButton(ns("download_log"), BTN_DOWNLOAD_LOG)
     )
   )
 }
@@ -91,10 +82,9 @@ mod_step2_server <- function(id, paths) {
     metadata_path    <- reactiveVal(NULL)
     log_path         <- reactiveVal(NULL)
 
-    run_status <- reactiveVal("Not run yet.")
+    run_status <- reactiveVal(STATUS_NOT_RUN)
     run_id     <- reactiveVal(0)
 
-    # Store uploaded file path
     uploaded_file <- reactiveVal(NULL)
 
     observeEvent(input$upload_clean, {
@@ -103,22 +93,18 @@ mod_step2_server <- function(id, paths) {
     })
 
     observeEvent(input$process, {
-
       # Determine input file based on source selection
       if (input$input_source == "previous") {
         step1_dir <- file.path(paths$base_dir, "step1")
         input_csv <- file.path(step1_dir, "kobo_output_clean.csv")
 
         if (!file.exists(input_csv)) {
-          showNotification(
-            "Step 2: missing input file from Step 1. Run Step 1 first or upload your own file.",
-            type = "error"
-          )
+          showNotification(STEP2_MSG_MISSING_FILE, type = "error")
           return()
         }
       } else {
         if (is.null(uploaded_file())) {
-          showNotification("Step 2: please upload a CSV file first.", type = "error")
+          showNotification(STEP2_MSG_UPLOAD_FIRST, type = "error")
           return()
         }
         input_csv <- uploaded_file()
@@ -127,7 +113,7 @@ mod_step2_server <- function(id, paths) {
       # Validate ratio
       ratio <- input$ratio
       if (is.na(ratio) || ratio < 0 || ratio > 1) {
-        showNotification("Step 2: ratio must be between 0 and 1", type = "error")
+        showNotification(STEP2_MSG_INVALID_RATIO, type = "error")
         return()
       }
 
@@ -187,9 +173,9 @@ mod_step2_server <- function(id, paths) {
       run_status(status_msg)
 
       if (status != 0 || !file.exists(indNe)) {
-        showNotification("Step 2: processing failed (check logs)", type = "error")
+        showNotification(STEP2_MSG_FAILED, type = "error")
       } else {
-        showNotification("Step 2 finished successfully", type = "message")
+        showNotification(STEP2_MSG_SUCCESS, type = "message")
       }
     })
 
