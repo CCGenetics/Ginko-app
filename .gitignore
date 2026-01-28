@@ -1,2 +1,10 @@
 .idea
 app/scripts/Ginko-Rfun
+
+# Claude Code
+.claude/
+.claude*
+claude.md
+CLAUDE.md
+*.claude.md
+.claudeignore

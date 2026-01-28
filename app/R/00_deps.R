@@ -6,13 +6,14 @@ packages <- c(
   "rmarkdown",
   "knitr",
 
-  # Ginko step1 Rmd deps
+  # Ginko Rmd deps
   "tidyr",
   "dplyr",
   "magrittr",
   "stringr",
   "ggplot2",
-  "utile.tools"
+  "utile.tools",
+  "viridis"
 )
 
 installed <- rownames(installed.packages())
