@@ -22,9 +22,16 @@ jobs:
           port: ${{ secrets.PROD_SSH_PORT || 22 }}
           script: |
             set -euo pipefail
-          
+
+            echo "== Debug SSH =="
+            whoami
+            echo "HOME: $HOME"
+            ls -la ~/.ssh/
+            cat ~/.ssh/config 2>/dev/null || echo "No SSH config"
+            ssh -T git@github.com 2>&1 || true
+
             cd /opt/Ginko-app
-          
+
             echo "== Sync main =="
             git fetch origin --prune
             git reset --hard origin/main
