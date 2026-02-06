@@ -9,6 +9,7 @@ source("modules/mod_step2.R")
 source("modules/mod_step3.R")
 source("modules/mod_step4.R")
 
+about_md <- file.path("content", "steps", "about.md")
 step0_md <- file.path("content", "steps", "step0.md")
 
 ui <- fluidPage(
@@ -22,6 +23,20 @@ ui <- fluidPage(
 
   tags$h1(APP_TITLE),
 
+  # About box
+  tags$details(
+    open = FALSE,
+    class = "step-box",
+
+    tags$summary(ABOUT_TITLE),
+
+    if (file.exists(about_md)) {
+      includeMarkdown(about_md)
+    } else {
+      tags$em(paste("Missing markdown file:", about_md))
+    }
+  ),
+
   # Step 0 - Upload data
   tags$details(
     open = TRUE,
@@ -29,7 +44,6 @@ ui <- fluidPage(
 
     tags$summary(STEP0_TITLE),
 
-    tags$h4(LABEL_DESCRIPTION),
     if (file.exists(step0_md)) {
       includeMarkdown(step0_md)
     } else {
