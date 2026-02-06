@@ -1,47 +1,50 @@
 # app/modules/mod_step1.R
+#
+# Step 1: Raw data quality check
+# Validates Kobo export data and flags records for manual review.
 
 library(shiny)
 
+source("content/ui_strings.R")
 source("modules/mod_step_frame.R")
+
 step1_md <- file.path("content", "steps", "step1.md")
+
 mod_step1_ui <- function(id) {
   ns <- NS(id)
 
   step_frame_ui(
     id = id,
-    title = "01 - Raw data quality check",
+    title = STEP1_TITLE,
 
     description_ui = tagList(
-      tags$p("Runs the Step 1 quality check from the Ginko-Rfun repository."),
-      tags$p("Outputs: report HTML + kobo_output_tocheck.csv + kobo_output_clean.csv."),
       includeMarkdown(step1_md)
     ),
-
 
     params_ui = tagList(
       checkboxInput(
         inputId = ns("keep_to_check"),
-        label = "Keep records flagged for manual review in the CLEAN output (keep_to_check)",
+        label = STEP1_PARAM_KEEP_LABEL,
         value = FALSE
       )
     ),
 
     process_ui = actionButton(
       inputId = ns("process"),
-      label = "Process"
+      label = BTN_PROCESS
     ),
 
     result_ui = tagList(
-      tags$h5("Run status"),
+      tags$h5(LABEL_RUN_STATUS),
       verbatimTextOutput(ns("run_status")),
 
-      tags$h5("Report preview"),
+      tags$h5(STEP1_RESULT_PREVIEW),
       uiOutput(ns("report_preview")),
 
-      downloadButton(ns("download_tocheck"), "Download to-check CSV"),
-      downloadButton(ns("download_clean"), "Download clean CSV"),
-      downloadButton(ns("download_report"), "Download report (HTML)"),
-      downloadButton(ns("download_log"), "Download step log")
+      downloadButton(ns("download_tocheck"), STEP1_BTN_TOCHECK),
+      downloadButton(ns("download_clean"), STEP1_BTN_CLEAN),
+      downloadButton(ns("download_report"), STEP1_BTN_REPORT),
+      downloadButton(ns("download_log"), BTN_DOWNLOAD_LOG)
     )
   )
 }
@@ -54,14 +57,14 @@ mod_step1_server <- function(id, paths) {
     report_path  <- reactiveVal(NULL)
     log_path     <- reactiveVal(NULL)
 
-    run_status   <- reactiveVal("Not run yet.")
+    run_status   <- reactiveVal(STATUS_NOT_RUN)
     run_id       <- reactiveVal(0)
 
     observeEvent(input$process, {
-
       input_csv <- file.path(paths$input_dir, "00_raw_data.csv")
+
       if (!file.exists(input_csv)) {
-        showNotification("Step 1: missing uploaded file 00_raw_data.csv", type = "error")
+        showNotification(STEP1_MSG_MISSING_FILE, type = "error")
         return()
       }
 
@@ -89,7 +92,7 @@ mod_step1_server <- function(id, paths) {
       status <- attr(res, "status")
       if (is.null(status)) status <- 0
 
-      # expected outputs
+      # Expected outputs
       tocheck <- file.path(step_out_dir, "kobo_output_tocheck.csv")
       clean   <- file.path(step_out_dir, "kobo_output_clean.csv")
       report  <- file.path(step_out_dir, "step1_quality_check_report.html")
@@ -101,7 +104,7 @@ mod_step1_server <- function(id, paths) {
       log_path(logf)
       run_id(run_id() + 1)
 
-      # always persist system2 output as well
+      # Persist system2 output
       sys_log <- file.path(step_out_dir, "step1_system2.log")
       writeLines(res, con = sys_log)
 
@@ -116,9 +119,9 @@ mod_step1_server <- function(id, paths) {
       run_status(status_msg)
 
       if (status != 0 || !file.exists(report)) {
-        showNotification("Step 1: report was not generated (check logs)", type = "error")
+        showNotification(STEP1_MSG_FAILED, type = "error")
       } else {
-        showNotification("Step 1 finished", type = "message")
+        showNotification(STEP1_MSG_SUCCESS, type = "message")
       }
     })
 
@@ -133,7 +136,7 @@ mod_step1_server <- function(id, paths) {
       if (file.exists(report_path())) {
         tags$code(report_path())
       } else {
-        tags$em("No report generated yet. Download logs to see why.")
+        tags$em(STEP1_PREVIEW_NONE)
       }
     })
 

@@ -1,4 +1,15 @@
 # app/scripts/wrappers/step2_clean_extract.R
+#
+# Step 2 Wrapper: Clean & Extract Indicators Data
+# Transforms cleaned Kobo data into indicator-specific datasets.
+#
+# Usage: Rscript step2_clean_extract.R <input_csv> <output_dir> <ratio>
+#
+# Outputs:
+#   - indNe_data.csv: Data for Ne 500 indicator (population-level)
+#   - indPM_data.csv: Data for PM indicator (taxon-level)
+#   - indDNAbased_data.csv: Data for DNA-based indicator (taxon-level)
+#   - metadata.csv: Taxon and assessment metadata
 
 args <- commandArgs(trailingOnly = TRUE)
 

@@ -1,8 +1,13 @@
 # app/modules/mod_step4.R
+#
+# Step 4: Country report
+# Generates a country-level report summarizing genetic diversity indicators.
 
 library(shiny)
 
+source("content/ui_strings.R")
 source("modules/mod_step_frame.R")
+
 step4_md <- file.path("content", "steps", "step4.md")
 
 mod_step4_ui <- function(id) {
@@ -10,75 +15,55 @@ mod_step4_ui <- function(id) {
 
   step_frame_ui(
     id = id,
-    title = "04 - Country report",
+    title = STEP4_TITLE,
 
     description_ui = tagList(
-      tags$p(
-        "Generates a country-level report summarizing genetic diversity indicators."
-      ),
       includeMarkdown(step4_md)
     ),
 
     params_ui = tagList(
-      tags$h5("Input data source"),
+      tags$h5(LABEL_INPUT_SOURCE),
       radioButtons(
         inputId = ns("input_source"),
         label = NULL,
-        choices = c(
-          "Use output from Step 3" = "previous",
-          "Upload my own files" = "upload"
-        ),
+        choiceNames = list(STEP4_INPUT_FROM_STEP3, INPUT_SOURCE_UPLOAD_MULTI),
+        choiceValues = list("previous", "upload"),
         selected = "previous"
       ),
 
       conditionalPanel(
         condition = sprintf("input['%s'] == 'upload'", ns("input_source")),
-        fileInput(
-          inputId = ns("upload_indicators_full"),
-          label = "Upload indicators_full.csv",
-          accept = ".csv"
-        ),
-        fileInput(
-          inputId = ns("upload_indNe"),
-          label = "Upload indNe_data.csv",
-          accept = ".csv"
-        ),
-        tags$small(
-          class = "text-muted",
-          "Upload both CSV files from Step 3 output (or equivalent)."
-        )
+        fileInput(inputId = ns("upload_indicators_full"), label = STEP4_UPLOAD_FULL, accept = ".csv"),
+        fileInput(inputId = ns("upload_indNe"), label = STEP4_UPLOAD_INDNE, accept = ".csv"),
+        tags$small(class = "text-muted", STEP4_UPLOAD_HELP)
       ),
 
       tags$hr(),
 
       textInput(
         inputId = ns("country_name"),
-        label = "Country name",
+        label = STEP4_PARAM_COUNTRY_LABEL,
         value = "",
-        placeholder = "e.g., mexico, south_africa, france"
+        placeholder = STEP4_PARAM_COUNTRY_PLACEHOLDER
       ),
-      tags$small(
-        class = "text-muted",
-        "Enter the country name exactly as it appears in your data (lowercase, use underscores instead of spaces). ",
-        "Leave empty to use the first country found in the data."
-      )
+      tags$small(class = "text-muted", STEP4_PARAM_COUNTRY_HELP)
     ),
 
     process_ui = actionButton(
       inputId = ns("process"),
-      label = "Generate Report"
+      label = BTN_GENERATE_REPORT
     ),
 
     result_ui = tagList(
-      tags$h5("Run status"),
+      tags$h5(LABEL_RUN_STATUS),
       verbatimTextOutput(ns("run_status")),
 
-      tags$h5("Available countries"),
+      tags$h5(STEP4_RESULT_COUNTRIES),
       verbatimTextOutput(ns("available_countries")),
 
-      tags$h5("Output files"),
-      downloadButton(ns("download_report"), "Download country_report.html"),
-      downloadButton(ns("download_log"), "Download step log")
+      tags$h5(LABEL_OUTPUT_FILES),
+      downloadButton(ns("download_report"), STEP4_BTN_REPORT),
+      downloadButton(ns("download_log"), BTN_DOWNLOAD_LOG)
     )
   )
 }
@@ -89,10 +74,9 @@ mod_step4_server <- function(id, paths) {
     report_path <- reactiveVal(NULL)
     log_path    <- reactiveVal(NULL)
 
-    run_status <- reactiveVal("Not run yet.")
+    run_status <- reactiveVal(STATUS_NOT_RUN)
     run_id     <- reactiveVal(0)
 
-    # Store uploaded file paths
     uploaded_indicators_full <- reactiveVal(NULL)
     uploaded_indNe           <- reactiveVal(NULL)
 
@@ -122,9 +106,9 @@ mod_step4_server <- function(id, paths) {
 
       if (is.null(indicators_file) || !file.exists(indicators_file)) {
         if (input$input_source == "previous") {
-          return("Run Step 3 first to see available countries.")
+          return(STEP4_MSG_RUN_STEP3)
         } else {
-          return("Upload indicators_full.csv to see available countries.")
+          return(STEP4_MSG_UPLOAD_TO_SEE)
         }
       }
 
@@ -134,52 +118,45 @@ mod_step4_server <- function(id, paths) {
           countries <- unique(data$country_assessment)
           countries <- countries[!is.na(countries) & countries != ""]
           if (length(countries) == 0) {
-            return("No countries found in data.")
+            return(STEP4_MSG_NO_COUNTRIES)
           }
-          paste("Found countries:", paste(countries, collapse = ", "))
+          paste(STEP4_MSG_COUNTRIES_FOUND, paste(countries, collapse = ", "))
         } else {
-          "Column 'country_assessment' not found in data."
+          STEP4_MSG_NO_COLUMN
         }
       }, error = function(e) {
-        paste("Error reading data:", conditionMessage(e))
+        paste(STEP4_MSG_READ_ERROR, conditionMessage(e))
       })
     })
 
     observeEvent(input$process, {
-
       # Create a temporary input directory for this step
       step_input_dir <- file.path(paths$base_dir, "step4_input")
       dir.create(step_input_dir, recursive = TRUE, showWarnings = FALSE)
 
       if (input$input_source == "previous") {
-        # Use output from step3
         step3_dir <- file.path(paths$base_dir, "step3")
-
         required_files <- c("indicators_full.csv", "indNe_data.csv")
         missing <- required_files[!file.exists(file.path(step3_dir, required_files))]
 
         if (length(missing) > 0) {
           showNotification(
-            paste("Step 4: missing input files from Step 3:", paste(missing, collapse = ", "),
-                  ". Run Step 3 first or upload your own files."),
+            paste(STEP4_MSG_MISSING_FILES, paste(missing, collapse = ", ")),
             type = "error"
           )
           return()
         }
 
-        # Copy files to input dir
         for (f in required_files) {
           file.copy(file.path(step3_dir, f), file.path(step_input_dir, f), overwrite = TRUE)
         }
 
       } else {
-        # Use uploaded files
         if (is.null(uploaded_indicators_full()) || is.null(uploaded_indNe())) {
-          showNotification("Step 4: please upload both required CSV files.", type = "error")
+          showNotification(STEP4_MSG_UPLOAD_BOTH, type = "error")
           return()
         }
 
-        # Copy uploaded files to input dir with correct names
         file.copy(uploaded_indicators_full(), file.path(step_input_dir, "indicators_full.csv"), overwrite = TRUE)
         file.copy(uploaded_indNe(), file.path(step_input_dir, "indNe_data.csv"), overwrite = TRUE)
       }
@@ -187,7 +164,6 @@ mod_step4_server <- function(id, paths) {
       # Get country name
       country_name <- trimws(input$country_name)
       if (country_name == "") {
-        # Try to get first country from data
         tryCatch({
           data <- read.csv(file.path(step_input_dir, "indicators_full.csv"), header = TRUE, stringsAsFactors = FALSE)
           if ("country_assessment" %in% names(data)) {
@@ -196,7 +172,7 @@ mod_step4_server <- function(id, paths) {
             if (length(countries) > 0) {
               country_name <- countries[1]
               showNotification(
-                paste("No country specified, using first found:", country_name),
+                paste(STEP4_MSG_AUTO_COUNTRY, country_name),
                 type = "warning"
               )
             }
@@ -207,7 +183,7 @@ mod_step4_server <- function(id, paths) {
       }
 
       if (country_name == "") {
-        showNotification("Step 4: please specify a country name", type = "error")
+        showNotification(STEP4_MSG_SPECIFY_COUNTRY, type = "error")
         return()
       }
 
@@ -260,9 +236,9 @@ mod_step4_server <- function(id, paths) {
       run_status(status_msg)
 
       if (status != 0 || !file.exists(report)) {
-        showNotification("Step 4: report generation failed (check logs)", type = "error")
+        showNotification(STEP4_MSG_FAILED, type = "error")
       } else {
-        showNotification("Step 4 finished - report generated!", type = "message")
+        showNotification(STEP4_MSG_SUCCESS, type = "message")
       }
     })
 

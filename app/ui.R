@@ -2,6 +2,7 @@
 
 library(shiny)
 
+source("content/ui_strings.R")
 source("modules/mod_step_frame.R")
 source("modules/mod_step1.R")
 source("modules/mod_step2.R")
@@ -19,16 +20,16 @@ ui <- fluidPage(
     )
   ),
 
-  tags$h1("Ginko!"),
+  tags$h1(APP_TITLE),
 
-  # ---- STEP 00 ------------------------------------------------------------
+  # Step 0 - Upload data
   tags$details(
     open = TRUE,
     class = "step-box",
 
-    tags$summary("00 - Upload data"),
+    tags$summary(STEP0_TITLE),
 
-    tags$h4("Description"),
+    tags$h4(LABEL_DESCRIPTION),
     if (file.exists(step0_md)) {
       includeMarkdown(step0_md)
     } else {
@@ -37,12 +38,12 @@ ui <- fluidPage(
 
     fileInput(
       inputId = "upload_data",
-      label = "Upload CSV file",
+      label = LABEL_UPLOAD_CSV,
       accept = ".csv"
     )
   ),
 
-  # ---- STEPS 01–04 --------------------------------------
+  # Steps 1-4
   mod_step1_ui("step1"),
   mod_step2_ui("step2"),
   mod_step3_ui("step3"),

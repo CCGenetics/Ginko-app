@@ -1,4 +1,14 @@
 # app/scripts/wrappers/step1_quality_check.R
+#
+# Step 1 Wrapper: Raw Data Quality Check
+# Validates Kobo export data, flags problematic records, and generates a report.
+#
+# Usage: Rscript step1_quality_check.R <input_csv> <output_dir> <keep_to_check>
+#
+# Outputs:
+#   - kobo_output_clean.csv: Cleaned data
+#   - kobo_output_tocheck.csv: Records flagged for manual review
+#   - step1_quality_check_report.html: Quality check report
 
 args <- commandArgs(trailingOnly = TRUE)
 
