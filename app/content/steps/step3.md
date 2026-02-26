@@ -2,7 +2,14 @@
 
 ## Step 3 - Estimate indicators
 
-Estimates the Genetid Diversity Indiciators for each of the assessments (e.g. for each species assessed). The output includes the Ne 500 and PM indicator value per record along with kew metadata in a single large table.
+This step estimates the Genetid Diversity Indiciators for each of the assessments (e.g. for each species assessed). The output includes the Ne 500 and PM indicator value per record along with kew metadata in a single large table.
+
+**The input** are the files produced by step 2:
+
+* `indNe_data.csv` 
+* `indPM_data.csv`
+* `indDNAbased_data.csv` 
+* `metadata.csv`
 
 #### Ne 500 indicator
 The Ne 500 indicator es estimated by dividing “the number of populations whithin a species with Ne > 500” over “the number of populations within a species with data to estimate Ne”.
@@ -23,7 +30,8 @@ This indicator refers to the number (count) of taxa by country in which genetic 
 
 #### Output:
 
-* A .csv file (called `indicators_full.csv`) The PM and Ne 500 indicators and the metadata in a single large table, in which each row is a taxon assessed. 
+* A .csv file (called `indicators_full.csv`) The PM and Ne 500 indicators and the metadata in a single large table, in which each row is a taxon assessed.
+* 
 * A report of the step in html format, where you can also see the header of the indicator values
 
 -----
