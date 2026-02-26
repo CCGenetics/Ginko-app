@@ -10,7 +10,10 @@ This steps performs the following:
 
 Notice that at this stage the **indicator values are not calculated**. This script only re-formats the data from the kobo-output so that you can use these data to estimate the indicators by yourself outside R (e.g. in Excel or other software), or continue to step 3 if you want to use the R functions and standard analyses of this repository.
 
-The input is the "clean kobo output" that was first cleaned in step 1. The output are the indicators data ready to be used to estimate the indicators.
+**The input** is the "clean kobo output" that was first cleaned in step 1. 
+
+#### Output
+The output are the indicators data ready to be used to estimate the indicators.
 
 * `indNe_data.csv` file: data needed to estimate the Ne 500 indicator.  Each population is a row and the population size data (either Ne or Nc) is provided in different columns. 
 
