@@ -17,7 +17,7 @@ The Proportion of Maintained populations (PM indicator) is the he proportion of 
 
 n_extant_populations / n_extant_populations + n_extinct_populations.
 
-### DNA-based genetic monitoring indicator
+#### DNA-based genetic monitoring indicator
 
 This indicator refers to the number (count) of taxa by country in which genetic monitoring based on DNA-methods is occurring. This is stored in the variable ´temp_gen_monitoring´ as a “yes/no” answer for each taxon, so to estimate the indicator, we only need to count how many said “yes”, keeping only one of the records when the taxon was multiassessed.
 
