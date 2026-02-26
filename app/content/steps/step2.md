@@ -30,7 +30,7 @@ In the Kobo form, Ne and Nc data are collected as follows:
 
 * **Nc (number of mature individuals) from quantitative range or qualitative data**, these are the ranges that in the kobo form show options like "<5,000 by much" or "< 5,000 but not by much (tens or a few hundred less)". The estimate is stored as text in the column `NcRange`. 
 
-This steps uses the function `transform_to_Ne()` to transform Nc estimates and their lower an upper estimates to Ne based on the Nc:Ne ratio the user decides.
+This steps uses the function `transform_to_Ne()` ([see it here](https://github.com/CCGenetics/Ginko-Rfun/blob/main/transform_to_Ne.R)) to transform Nc estimates and their lower an upper estimates to Ne based on the Nc:Ne ratio the user decides.
 
 For `NcPoint`, `NcLower`, `NcUpper` columns (Nc from point estimates) Nc is transformed to Ne done by multiplying them for the desired ratio. 
 
