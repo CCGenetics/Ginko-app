@@ -9,7 +9,7 @@ The Ne 500 indicator es estimated by dividing “the number of populations whith
 
 Here the indicator is estimated not by taxon but by X_uuid (unique record of a taxon), because a single taxon could be assessed by different countries or more than once with different parameters).
 
-This is done with the function [estimate_indicatorNe()](https://github.com/CCGenetics/Ginko-Rfun/blob/main/estimate_indicatorNe.R).
+This is done with the function estimate_indicatorNe() ([see it here](https://github.com/CCGenetics/Ginko-Rfun/blob/main/estimate_indicatorNe.R)).
 
 ### PM indicator
 
