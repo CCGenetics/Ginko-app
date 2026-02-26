@@ -17,7 +17,8 @@ It will process this file to look for common sources of error and flags those re
 7. Flags the records that need manual review and potentially correction.
 8. Asks the user if she/he wants to keep the taxa flagged in the previous step, or if they should be filtered out.
 
-The output are:
+#### Output:
+
 * a report of the quality check in html format
 * A .csv file (called `kobo_output_tocheck.csv`) showing **the records that need manual review or corrections**, if any.
 * A .csv file (called `kobo_output_clean.csv`) with the data after processing (**records flagged in the previous file may or may not be included according to user choice**).
